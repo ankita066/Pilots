@@ -92,6 +92,8 @@ TOKEN : /* Normal Tokens */
 <#DIGIT : ["0"-"9"]>
 | <LPAR: "(">
 | <RPAR: ")">
+| <LBRAC: "[">
+| <RBRAC: "]">
 | <COMMA: ",">
 | <INTEGER : ("+" | "-")? (<DIGIT>)+>
 | <#SCALEFACTOR : ("E" | "e") ("+" | "-")? (<DIGIT>)+>
@@ -295,11 +297,12 @@ String Exps():
 
 String Exp(): 
 {
-    String func, exps, exp, exp2, value, temp;
+    String func, exps, exp, exp2, value, value1, value2, temp;
 }
 {
     func = Func() "(" exps = Exps() ")" exp2 = Exp2() { return func + "(" + exps + ")" + exp2; } 
     | "(" temp = Exp() ")" exp2 = Exp2() { return "(" + temp + ")" + exp2; } 
+	| "[" value1 = Value() "," value2 = Value() "]" exp2 = Exp2() { return "[" + value1 + "," + value2 + "]" + exp2; } 	
     | value = Value() exp2 = Exp2() { return value + exp2; }
 }
 
