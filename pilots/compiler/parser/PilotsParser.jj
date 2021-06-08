@@ -99,6 +99,7 @@ TOKEN : /* Normal Tokens */
 | <LBRAC: "[">
 | <RBRAC: "]">
 | <COMMA: ",">
+| <DOTS: "..">
 | <INTEGER : ("+" | "-")? (<DIGIT>)+>
 | <#SCALEFACTOR : ("E" | "e") ("+" | "-")? (<DIGIT>)+>
 | <REAL : ("+" | "-")? (<DIGIT>)+ "." (<DIGIT>)* (<SCALEFACTOR>)?>
@@ -788,7 +789,7 @@ String Exp():
     boolean jjtc000 = true;
     jjtree.openNodeScope(jjtn000);
 /*@egen*/
-    String func, exps, exp, exp2, value, value1, value2, temp;
+    String func, exps, exp, exp2, value, temp;
 }
 {/*@bgen(jjtree) Exp */
     try {
@@ -804,23 +805,13 @@ String Exp():
                                            jjtree.closeNodeScope(jjtn000, true);
                                            jjtc000 = false;
                                          }
-/*@egen*/ { return "(" + temp + ")" + exp2; } 
-									 
-/*Added code -Ankita
-	 | "[" value1 = Value() "," value2 = Value() "]" exp2 = Exp2()/*@bgen(jjtree)*/
-                                         {
-                                           jjtree.closeNodeScope(jjtn000, true);
-                                           jjtc000 = false;
-                                         }
-/*@egen*/ { return "[" + value1 + "," + value2 + "]" + exp2; }
-
+/*@egen*/ { return "(" + temp + ")" + exp2; } 	
     | value = Value() exp2 = Exp2()/*@bgen(jjtree)*/
                                     {
                                       jjtree.closeNodeScope(jjtn000, true);
                                       jjtc000 = false;
                                     }
 /*@egen*/ { return value + exp2; }/*@bgen(jjtree)*/
-
     } catch (Throwable jjte000) {
       if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -849,7 +840,7 @@ String Exp2():
     boolean jjtc000 = true;
     jjtree.openNodeScope(jjtn000);
 /*@egen*/
-    String func, exp, exp2;
+    String func, exp, exp2, value1, value2;
 }
 {/*@bgen(jjtree) Exp2 */
     try {
@@ -860,11 +851,18 @@ String Exp2():
                                               jjtc000 = false;
                                             }
 /*@egen*/ { return func + exp + exp2; } 
-    | {}/*@bgen(jjtree)*/
-         {
-           jjtree.closeNodeScope(jjtn000, true);
-           jjtc000 = false;
-         }
+	/* Added threshold syntax by Ankita */
+	| "[" value1 = Value() ".." value2 = Value() "]" exp2 = Exp2()/*@bgen(jjtree)*/
+                                                                       {
+                                                                         jjtree.closeNodeScope(jjtn000, true);
+                                                                         jjtc000 = false;
+                                                                       }
+/*@egen*/ { return "[" + value1 + ".." + value2 + "]" + exp2; } 
+	| {}/*@bgen(jjtree)*/
+             {
+               jjtree.closeNodeScope(jjtn000, true);
+               jjtc000 = false;
+             }
 /*@egen*/ { return ""; }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {

@@ -1,2 +1,2 @@
 package pilots;
-public class Version { public static final String ver = "0.6"; }
+public class Version { public static final String ver = "0.7"; }

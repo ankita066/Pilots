@@ -95,6 +95,7 @@ TOKEN : /* Normal Tokens */
 | <LBRAC: "[">
 | <RBRAC: "]">
 | <COMMA: ",">
+| <DOTS: "..">
 | <INTEGER : ("+" | "-")? (<DIGIT>)+>
 | <#SCALEFACTOR : ("E" | "e") ("+" | "-")? (<DIGIT>)+>
 | <REAL : ("+" | "-")? (<DIGIT>)+ "." (<DIGIT>)* (<SCALEFACTOR>)?>
@@ -297,22 +298,23 @@ String Exps():
 
 String Exp(): 
 {
-    String func, exps, exp, exp2, value, value1, value2, temp;
+    String func, exps, exp, exp2, value, temp;
 }
 {
     func = Func() "(" exps = Exps() ")" exp2 = Exp2() { return func + "(" + exps + ")" + exp2; } 
-    | "(" temp = Exp() ")" exp2 = Exp2() { return "(" + temp + ")" + exp2; } 
-	| "[" value1 = Value() "," value2 = Value() "]" exp2 = Exp2() { return "[" + value1 + "," + value2 + "]" + exp2; } 	
+    | "(" temp = Exp() ")" exp2 = Exp2() { return "(" + temp + ")" + exp2; } 	
     | value = Value() exp2 = Exp2() { return value + exp2; }
 }
 
 String Exp2(): 
 {
-    String func, exp, exp2;
+    String func, exp, exp2, value1, value2;
 }
 {
     func = Func() exp = Exp() exp2 = Exp2() { return func + exp + exp2; } 
-    | {} { return ""; }
+	/* Added threshold syntax by Ankita */
+	| "[" value1 = Value() ".." value2 = Value() "]" exp2 = Exp2() { return "[" + value1 + ".." + value2 + "]" + exp2; } 
+	| {} { return ""; }
 }
 
 String Func(): 

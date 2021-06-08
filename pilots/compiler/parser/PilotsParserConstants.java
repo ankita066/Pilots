@@ -93,19 +93,25 @@ public interface PilotsParserConstants {
   /** RegularExpression Id. */
   int RPAR = 50;
   /** RegularExpression Id. */
-  int COMMA = 51;
+  int LBRAC = 51;
   /** RegularExpression Id. */
-  int INTEGER = 52;
+  int RBRAC = 52;
   /** RegularExpression Id. */
-  int SCALEFACTOR = 53;
+  int COMMA = 53;
   /** RegularExpression Id. */
-  int REAL = 54;
+  int DOTS = 54;
   /** RegularExpression Id. */
-  int LETTER = 55;
+  int INTEGER = 55;
   /** RegularExpression Id. */
-  int VAR = 56;
+  int SCALEFACTOR = 56;
   /** RegularExpression Id. */
-  int STRING = 57;
+  int REAL = 57;
+  /** RegularExpression Id. */
+  int LETTER = 58;
+  /** RegularExpression Id. */
+  int VAR = 59;
+  /** RegularExpression Id. */
+  int STRING = 60;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -165,7 +171,10 @@ public interface PilotsParserConstants {
     "<DIGIT>",
     "\"(\"",
     "\")\"",
+    "\"[\"",
+    "\"]\"",
     "\",\"",
+    "\"..\"",
     "<INTEGER>",
     "<SCALEFACTOR>",
     "<REAL>",

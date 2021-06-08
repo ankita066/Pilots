@@ -3,7 +3,7 @@
 export CLASSPATH=./classes:./lib/*:$CLASSPATH 
 DIST=./classes
 ROOT=$(pwd)
-VERSION=0.6
+VERSION=0.7
 
 echo "PILOTS Build Script (v$VERSION)"
 echo "Please make sure the current directory is in your CLASSPATH"

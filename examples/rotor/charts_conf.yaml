@@ -1,0 +1,19 @@
+---
+title: "Attitudes"
+vars: "roll,pitch,yaw"
+legends: "roll,pitch,yaw"
+colors: "blue,purple,green"
+xAxis: "Time"
+yAxis: "Attitudes"
+xRange: "2009-06-01 030900002-0400~2009-06-01 030900012-0400"
+yRange: "-0.4~0.4"
+
+---
+title: "Estimated Mode"
+vars: "mode"
+legends: "estimated mode"
+colors: "blue"
+xAxis: "Time"
+yAxis: "Mode"
+xRange: "2009-06-01 030900002-0400~2009-06-01 030900012-0400"
+yRange: "-1~5"

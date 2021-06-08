@@ -1,0 +1,7 @@
+
+java -Dsim -classpath .:$PILOTS_HOME/lib/* \
+    pilots.util.ColumnSelectableFileInputProducer \
+    $PILOTS_HOME/data/rotor/r19_90.txt \
+    roll,pitch,yaw \
+    localhost:8888
+
