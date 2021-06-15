@@ -342,6 +342,7 @@ public class PilotsCodeGenerator implements PilotsParserVisitor {
         return exp;
     }
 	
+	/*Ankita added: To replace threshold checks by operators */
 	
 	 public String replaceThresholds(String exp) {
 
@@ -351,33 +352,6 @@ public class PilotsCodeGenerator implements PilotsParserVisitor {
         for (int i = 0; i < thresh.length; i++) {
             exp = exp.replace(thresh[i], threshTargets[i]);
         }
-        
-
-		 
-/*	 
-		exp = " " + exp;
-		int start = exp.indexOf("in");
-		if(start == -1)
-			return exp;
-
-		while(start != -1)
-		{	
-			String var = exp.substring(exp.lastIndexOf(' ',start-2), exp.lastIndexOf(' ',start));
-			String expr = exp.substring(start + 3,exp.indexOf(']')+1);
-			
-			
-			
-			exp.lastIndexOf(' ',start)+1,start);
-			
-			String expr = exp.substring(exp.lastIndexOf(' ',start),exp.indexOf(']')+1);
-			String low = exp.substring(start+1, exp.indexOf('.'));
-			String high = exp.substring(exp.indexOf('.')+2, exp.indexOf(']'));
-
-			String code = " ( " + var + " >= " + low + " && " + var + " <= " + high + " )";
-			String rep = exp.replace(expr,code);
-			exp = rep;
-			start = exp.indexOf('[');
-		}*/
 		
 		return exp;
         
