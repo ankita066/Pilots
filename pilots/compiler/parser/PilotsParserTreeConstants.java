@@ -21,9 +21,10 @@ public interface PilotsParserTreeConstants
   public int JJTEXPS = 15;
   public int JJTEXP = 16;
   public int JJTEXP2 = 17;
-  public int JJTFUNC = 18;
-  public int JJTNUMBER = 19;
-  public int JJTVALUE = 20;
+  public int JJTINTERVALEXP = 18;
+  public int JJTFUNC = 19;
+  public int JJTNUMBER = 20;
+  public int JJTVALUE = 21;
 
 
   public String[] jjtNodeName = {
@@ -45,9 +46,10 @@ public interface PilotsParserTreeConstants
     "Exps",
     "Exp",
     "Exp2",
+    "IntervalExp",
     "Func",
     "Number",
     "Value",
   };
 }
-/* JavaCC - OriginalChecksum=bf00aaf4fe4bd9c4599864a184323dae (do not edit this line) */
+/* JavaCC - OriginalChecksum=1b40bccd304b3d873fc31235d5fbbf06 (do not edit this line) */

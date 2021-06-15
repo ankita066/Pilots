@@ -83,7 +83,8 @@ TOKEN : /* RESERVED TOKENS */
 | <AND: "and">
 | <OR: "or">
 | <XOR: "xor">
-| <NOT: "not">         
+| <NOT: "not"> 
+| <IN: "in">       
 | <PROGRAM_END: "end">
 }
 
@@ -302,7 +303,8 @@ String Exp():
 }
 {
     func = Func() "(" exps = Exps() ")" exp2 = Exp2() { return func + "(" + exps + ")" + exp2; } 
-    | "(" temp = Exp() ")" exp2 = Exp2() { return "(" + temp + ")" + exp2; } 	
+    | "(" temp = Exp() ")" exp2 = Exp2() { return "(" + temp + ")" + exp2; } 
+	| LOOKAHEAD(2) exp = IntervalExp() exp2 = Exp2() { return exp + exp2; } 
     | value = Value() exp2 = Exp2() { return value + exp2; }
 }
 
@@ -312,9 +314,24 @@ String Exp2():
 }
 {
     func = Func() exp = Exp() exp2 = Exp2() { return func + exp + exp2; } 
-	/* Added threshold syntax by Ankita */
-	| "[" value1 = Value() ".." value2 = Value() "]" exp2 = Exp2() { return "[" + value1 + ".." + value2 + "]" + exp2; } 
 	| {} { return ""; }
+}
+
+String IntervalExp(): 
+{
+    String value, exp0, exp1 = null, exp2 = null, str, str1, str2;
+	Token t;
+}
+{
+	value = Value() <IN> ( "[" { str1 = "["; } | "("  { str1 = "{"; } ) (exp1 = Exp())? ".." (exp2 = Exp())?  ( "]" { str2 = "]"; }  | ")" { str2 = "}"; } )
+	{
+		if(exp1 == null)
+			{ return "(" + value + str2 + exp2 + ")" ; }
+		if(exp2 == null)
+			{ return "(" + value + str1 + exp1 + ")" ; }
+		
+		{ return "(" + value + str1 + exp1 + ".." + value + str2 + exp2 + ")" ; }
+	}
 }
 
 String Func(): 

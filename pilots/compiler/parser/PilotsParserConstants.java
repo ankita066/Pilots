@@ -85,33 +85,35 @@ public interface PilotsParserConstants {
   /** RegularExpression Id. */
   int NOT = 46;
   /** RegularExpression Id. */
-  int PROGRAM_END = 47;
+  int IN = 47;
   /** RegularExpression Id. */
-  int DIGIT = 48;
+  int PROGRAM_END = 48;
   /** RegularExpression Id. */
-  int LPAR = 49;
+  int DIGIT = 49;
   /** RegularExpression Id. */
-  int RPAR = 50;
+  int LPAR = 50;
   /** RegularExpression Id. */
-  int LBRAC = 51;
+  int RPAR = 51;
   /** RegularExpression Id. */
-  int RBRAC = 52;
+  int LBRAC = 52;
   /** RegularExpression Id. */
-  int COMMA = 53;
+  int RBRAC = 53;
   /** RegularExpression Id. */
-  int DOTS = 54;
+  int COMMA = 54;
   /** RegularExpression Id. */
-  int INTEGER = 55;
+  int DOTS = 55;
   /** RegularExpression Id. */
-  int SCALEFACTOR = 56;
+  int INTEGER = 56;
   /** RegularExpression Id. */
-  int REAL = 57;
+  int SCALEFACTOR = 57;
   /** RegularExpression Id. */
-  int LETTER = 58;
+  int REAL = 58;
   /** RegularExpression Id. */
-  int VAR = 59;
+  int LETTER = 59;
   /** RegularExpression Id. */
-  int STRING = 60;
+  int VAR = 60;
+  /** RegularExpression Id. */
+  int STRING = 61;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -167,6 +169,7 @@ public interface PilotsParserConstants {
     "\"or\"",
     "\"xor\"",
     "\"not\"",
+    "\"in\"",
     "\"end\"",
     "<DIGIT>",
     "\"(\"",

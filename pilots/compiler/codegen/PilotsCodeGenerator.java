@@ -343,15 +343,32 @@ public class PilotsCodeGenerator implements PilotsParserVisitor {
     }
 	
 	
-	 public String replaceThresholds(String exp) {		
+	 public String replaceThresholds(String exp) {
+
+		String[] thresh = {"..", "[", "]", "{", "}"};
+        String[] threshTargets = {" && ", " >= ", " <= ", " > ", " < "};
+
+        for (int i = 0; i < thresh.length; i++) {
+            exp = exp.replace(thresh[i], threshTargets[i]);
+        }
+        
+
+		 
+/*	 
 		exp = " " + exp;
-		int start = exp.indexOf('[');
+		int start = exp.indexOf("in");
 		if(start == -1)
 			return exp;
 
 		while(start != -1)
 		{	
-			String var = exp.substring(exp.lastIndexOf(' ',start)+1,start);
+			String var = exp.substring(exp.lastIndexOf(' ',start-2), exp.lastIndexOf(' ',start));
+			String expr = exp.substring(start + 3,exp.indexOf(']')+1);
+			
+			
+			
+			exp.lastIndexOf(' ',start)+1,start);
+			
 			String expr = exp.substring(exp.lastIndexOf(' ',start),exp.indexOf(']')+1);
 			String low = exp.substring(start+1, exp.indexOf('.'));
 			String high = exp.substring(exp.indexOf('.')+2, exp.indexOf(']'));
@@ -360,30 +377,8 @@ public class PilotsCodeGenerator implements PilotsParserVisitor {
 			String rep = exp.replace(expr,code);
 			exp = rep;
 			start = exp.indexOf('[');
-		}
-		
-		/*while( ind != -1 || st)
-		{
-			String var = exp.substring(start,exp.indexOf('['));		 
-			String low = exp.substring(exp.indexOf('[')+1, exp.indexOf('.'));
-			String high = exp.substring(exp.indexOf('.')+2, exp.indexOf(']'));
-
-			code+ = var + ">= " + low + " && " + var + "<= " + high;
-			exp = exp.substring(exp.indexOf(']')+ 2);
-			start = exp.indexOf(' ');
-			ind = exp.indexOf('[');
-			 
-			 
-			 String var = exp.substring(exp.lastIndexOf(' ',exp.lastIndexOf(' ',start)-1)+1,exp.lastIndexOf(' ',start));
-			String expr = exp.substring(exp.lastIndexOf(' ',exp.lastIndexOf(' ',start)-1)+1,exp.indexOf(']')+1);
-			String low = exp.substring(start+1, exp.indexOf('.'));
-			String high = exp.substring(exp.indexOf('.')+2, exp.indexOf(']'));
-
-			String code = "( " + var + " >= " + low + " && " + var + " <= " + high + " )";
-			String rep = exp.replace(expr,code);
-			exp = rep;
-			start = exp.indexOf('[');
 		}*/
+		
 		return exp;
         
     }
@@ -424,7 +419,8 @@ public class PilotsCodeGenerator implements PilotsParserVisitor {
                 code += insIndent() + "if (";
             else
                 code += insIndent() + "} else if (";
-            code += replaceVar(replaceMathFuncs(replaceThresholds(mode.getCondition())), varsMap) + ") {\n";
+
+			code += replaceVar(replaceMathFuncs(replaceThresholds(mode.getCondition())), varsMap) + ") {\n";
             code += incInsIndent() + "mode = " + mode.getId() + ";\t// " + mode.getDesc() + "\n";
             decIndent();
         }
@@ -1039,6 +1035,13 @@ public class PilotsCodeGenerator implements PilotsParserVisitor {
 
     public Object visit(ASTExp2 node, Object data) {
         goDown("Exp2");
+        acceptChildren(node, data);
+        goUp();
+        return null;
+    }
+	
+	  public Object visit(ASTIntervalExp  node, Object data) {
+        goDown("IntervalExp ");
         acceptChildren(node, data);
         goUp();
         return null;

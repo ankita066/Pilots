@@ -22,8 +22,9 @@ public interface PilotsParserVisitor
   public Object visit(ASTExps node, Object data);
   public Object visit(ASTExp node, Object data);
   public Object visit(ASTExp2 node, Object data);
+  public Object visit(ASTIntervalExp node, Object data);
   public Object visit(ASTFunc node, Object data);
   public Object visit(ASTNumber node, Object data);
   public Object visit(ASTValue node, Object data);
 }
-/* JavaCC - OriginalChecksum=27dd48e47df177f79598e02ecfd9cea8 (do not edit this line) */
+/* JavaCC - OriginalChecksum=6ad2721a2a9c23c4dd6d5701adbec27f (do not edit this line) */

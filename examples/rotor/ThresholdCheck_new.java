@@ -45,11 +45,11 @@ public class ThresholdCheck_new extends PilotsRuntime {
 
             // Error detection
             int mode = -1;
-            if ( ( data.get("e1") >= A_LOW && data.get("e1") <= A_HIGH ) || data.get("e1")>A_HIGH) {
+            if ((data.get("e1") >= A_LOW && data.get("e1") <= A_HIGH) || data.get("e1")>A_HIGH) {
                 mode = 0;	// "Normal"
-            } else if ( data.get("e1")<=A_LOW) {
+            } else if (data.get("e1")<=A_LOW) {
                 mode = 1;	// "Failure"
-            } else if ( ( data.get("e1") >= A_LOW && data.get("e1") <= A_HIGH ) || ( data.get("e1") >= 3 && data.get("e1") <= 5 )) {
+            } else if ((data.get("e1") > A_LOW) || (data.get("e1") >= 3 && data.get("e1") < 5)) {
                 mode = 2;	// "mode 2"
             }
             LOGGER.fine("Detected: mode=" + mode);

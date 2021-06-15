@@ -63,6 +63,9 @@ public class PilotsParserDefaultVisitor implements PilotsParserVisitor{
   public Object visit(ASTExp2 node, Object data){
     return defaultVisit(node, data);
   }
+  public Object visit(ASTIntervalExp node, Object data){
+    return defaultVisit(node, data);
+  }
   public Object visit(ASTFunc node, Object data){
     return defaultVisit(node, data);
   }
@@ -73,4 +76,4 @@ public class PilotsParserDefaultVisitor implements PilotsParserVisitor{
     return defaultVisit(node, data);
   }
 }
-/* JavaCC - OriginalChecksum=3d68487e8c243fa8ab36db2988548d64 (do not edit this line) */
+/* JavaCC - OriginalChecksum=4d5ea4241258ccdd59d23a8ed4b83f81 (do not edit this line) */

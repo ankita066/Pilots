@@ -87,7 +87,8 @@ TOKEN : /* RESERVED TOKENS */
 | <AND: "and">
 | <OR: "or">
 | <XOR: "xor">
-| <NOT: "not">         
+| <NOT: "not"> 
+| <IN: "in">       
 | <PROGRAM_END: "end">
 }
 
@@ -805,7 +806,13 @@ String Exp():
                                            jjtree.closeNodeScope(jjtn000, true);
                                            jjtc000 = false;
                                          }
-/*@egen*/ { return "(" + temp + ")" + exp2; } 	
+/*@egen*/ { return "(" + temp + ")" + exp2; } 
+	| LOOKAHEAD(2) exp = IntervalExp() exp2 = Exp2()/*@bgen(jjtree)*/
+                                                         {
+                                                           jjtree.closeNodeScope(jjtn000, true);
+                                                           jjtc000 = false;
+                                                         }
+/*@egen*/ { return exp + exp2; } 
     | value = Value() exp2 = Exp2()/*@bgen(jjtree)*/
                                     {
                                       jjtree.closeNodeScope(jjtn000, true);
@@ -851,13 +858,6 @@ String Exp2():
                                               jjtc000 = false;
                                             }
 /*@egen*/ { return func + exp + exp2; } 
-	/* Added threshold syntax by Ankita */
-	| "[" value1 = Value() ".." value2 = Value() "]" exp2 = Exp2()/*@bgen(jjtree)*/
-                                                                       {
-                                                                         jjtree.closeNodeScope(jjtn000, true);
-                                                                         jjtc000 = false;
-                                                                       }
-/*@egen*/ { return "[" + value1 + ".." + value2 + "]" + exp2; } 
 	| {}/*@bgen(jjtree)*/
              {
                jjtree.closeNodeScope(jjtn000, true);
@@ -883,6 +883,54 @@ String Exp2():
         jjtree.closeNodeScope(jjtn000, true);
       }
     }
+/*@egen*/
+}
+
+String IntervalExp(): 
+{/*@bgen(jjtree) IntervalExp */
+    ASTIntervalExp jjtn000 = new ASTIntervalExp(JJTINTERVALEXP);
+    boolean jjtc000 = true;
+    jjtree.openNodeScope(jjtn000);
+/*@egen*/
+    String value, exp0, exp1 = null, exp2 = null, str, str1, str2;
+	Token t;
+}
+{/*@bgen(jjtree) IntervalExp */
+        try {
+/*@egen*/
+	value = Value() <IN> ( "[" { str1 = "["; } | "("  { str1 = "{"; } ) (exp1 = Exp())? ".." (exp2 = Exp())?  ( "]" { str2 = "]"; }  | ")" { str2 = "}"; } )/*@bgen(jjtree)*/
+        {
+          jjtree.closeNodeScope(jjtn000, true);
+          jjtc000 = false;
+        }
+/*@egen*/
+	{
+		if(exp1 == null)
+			{ return "(" + value + str2 + exp2 + ")" ; }
+		if(exp2 == null)
+			{ return "(" + value + str1 + exp1 + ")" ; }
+		
+		{ return "(" + value + str1 + exp1 + ".." + value + str2 + exp2 + ")" ; }
+	}/*@bgen(jjtree)*/
+        } catch (Throwable jjte000) {
+          if (jjtc000) {
+            jjtree.clearNodeScope(jjtn000);
+            jjtc000 = false;
+          } else {
+            jjtree.popNode();
+          }
+          if (jjte000 instanceof RuntimeException) {
+            throw (RuntimeException)jjte000;
+          }
+          if (jjte000 instanceof ParseException) {
+            throw (ParseException)jjte000;
+          }
+          throw (Error)jjte000;
+        } finally {
+          if (jjtc000) {
+            jjtree.closeNodeScope(jjtn000, true);
+          }
+        }
 /*@egen*/
 }
 
