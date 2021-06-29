@@ -19,7 +19,8 @@ public class PilotsCompiler {
 
     private PilotsParser parser;
     private PilotsCodeGenerator codegen;
-    
+    private DafnyCodeGenerator codegendaf;
+	
     private TrainerParser tr_parser;
     private TrainerCodeGenerator tr_codegen;
 
@@ -29,7 +30,7 @@ public class PilotsCompiler {
     public static void main(String[] args) {
         ArgumentParser parser = ArgumentParsers.newFor("PilotsCompiler").build()
             .defaultHelp(true)
-            .description("Translate PILOTS programs into java code.");
+            .description("Translate PILOTS programs into java and dafny code.");
         parser.addArgument("-s", "--sim")
             .action(Arguments.storeTrue())
             .help("Flag to generate simulation code");
@@ -74,9 +75,12 @@ public class PilotsCompiler {
 		// setting a static input stream
 		parser = new PilotsParser(new FileReader(file));
 		codegen = new PilotsCodeGenerator();
+		codegendaf = new DafnyCodeGenerator();
 		codegen.setOptions(opts);
+		codegendaf.setOptions(opts);
 		pilots.compiler.parser.Node node = parser.Pilots(); 
 		node.jjtAccept(codegen, null);
+		node.jjtAccept(codegendaf, null);
 	    }
 	} 
         catch (FileNotFoundException ex) {
